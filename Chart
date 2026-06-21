@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero de Control - CONEVAL 2008-2018</title>
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
+    <script type="text/javascript">
+        // 1. Cargar el paquete corechart de Google Charts
+        google.charts.load('current', {'packages':['corechart']});
+        
+        // 2. Configurar la función que dibujará los gráficos al cargar la página
+        google.charts.setOnLoadCallback(dibujarTablero);
+
+        function dibujarTablero() {
+            
+            // --- GRÁFICO 1: Evolución de la Pobreza (LineChart) ---
+            var data1 = google.visualization.arrayToDataTable([
+                ['Año', 'Pobreza (%)', 'Pobreza Extrema (%)'],
+                ['2008', 44.4, 11.0],
+                ['2010', 46.1, 11.3],
+                ['2012', 45.5, 9.8],
+                ['2014', 46.2, 9.5],
+                ['2016', 43.6, 7.6],
+                ['2018', 41.9, 7.4]
+            ]);
+            var options1 = {
+                title: 'Evolución del Porcentaje de Población en Situación de Pobreza',
+                curveType: 'function',
+                legend: { position: 'bottom' },
+                colors: ['#1b9e77', '#d95f02'],
+                hAxis: { title: 'Año' },
+                vAxis: { title: 'Porcentaje (%)' }
+            };
+            var chart1 = new google.visualization.LineChart(document.getElementById('grafico_lineas'));
+            chart1.draw(data1, options1);
+
+
+            // --- GRÁFICO 2: Número de Personas por Carencia (BarChart) ---
+            var data2 = google.visualization.arrayToDataTable([
+                ['Tipo de Carencia Social (2018)', 'Millones de Personas'],
+                ['Rezago Educativo', 21.1],
+                ['Acceso a Servicios de Salud', 20.2],
+                ['Acceso a la Seguridad Social', 71.7],
+                ['Calidad y Espacios de la Vivienda', 13.8],
+                ['Servicios Básicos en la Vivienda', 24.7],
+                ['Acceso a la Alimentación', 25.5]
+            ]);
+            var options2 = {
+                title: 'Número de Personas en Pobreza por Tipo de Carencia (2018)',
+                chartArea: {width: '50%'},
+                hAxis: { title: 'Millones de Personas', minValue: 0 },
+                vAxis: { title: 'Carencia Social' },
+                colors: ['#7570b3'],
+                legend: { position: 'none' }
+            };
+            var chart2 = new google.visualization.BarChart(document.getElementById('grafico_barras'));
+            chart2.draw(data2, options2);
+
+
+            // --- GRÁFICO 3: Distribución de la Población (PieChart) ---
+            var data3 = google.visualization.arrayToDataTable([
+                ['Condición de Población', 'Porcentaje (%)'],
+                ['Población en Pobreza', 41.9],
+                ['Vulnerable por Carencias Sociales', 29.3],
+                ['Vulnerable por Ingresos', 6.9],
+                ['No Pobre y No Vulnerable', 21.9]
+            ]);
+            var options3 = {
+                title: 'Distribución de la Población Según Condición de Pobreza (2018)',
+                is3D: true,
+                colors: ['#e6ab02', '#666666', '#a6761d', '#e7298a']
+            };
+            var chart3 = new google.visualization.PieChart(document.getElementById('grafico_pastel'));
+            chart3.draw(data3, options3);
+
+
+            // --- GRÁFICO 4: Reducción de Carencias (ColumnChart) ---
+            var data4 = google.visualization.arrayToDataTable([
+                ['Carencia Social', 'Porcentaje 2008 (%)', 'Porcentaje 2018 (%)'],
+                ['Rezago Educativo', 21.9, 16.9],
+                ['Acceso a Servicios de Salud', 38.4, 16.2],
+                ['Acceso a la Seguridad Social', 65.0, 57.3],
+                ['Servicios Básicos de la Vivienda', 22.9, 19.8]
+            ]);
+            var options4 = {
+                title: 'Reducción de Carencias Sociales - Comparativa 2008 vs 2018',
+                hAxis: {title: 'Carencia Social'},
+                vAxis: {title: 'Porcentaje (%)'},
+                colors: ['#377eb8', '#4daf4a']
+            };
+            var chart4 = new google.visualization.ColumnChart(document.getElementById('grafico_columnas'));
+            chart4.draw(data4, options4);
+
+
+            // --- GRÁFICO 5: Ingreso Inferior a la Línea de Pobreza (AreaChart) ---
+            var data5 = google.visualization.arrayToDataTable([
+                ['Año', 'Población con Ingreso Inferior a la Línea (%)'],
+                ['2008', 49.0],
+                ['2012', 51.6],
+                ['2016', 50.6],
+                ['2018', 48.8]
+            ]);
+            var options5 = {
+                title: 'Población con Ingreso Inferior a la Línea de Pobreza por Ingresos',
+                hAxis: {title: 'Año', titleTextStyle: {color: '#333'}},
+                vAxis: {title: 'Porcentaje (%)', minValue: 0},
+                colors: ['#e41a1c'],
+                areaOpacity: 0.3
+            };
+            var chart5 = new google.visualization.AreaChart(document.getElementById('grafico_area'));
+            chart5.draw(data5, options5);
+        }
+    </script>
+
+    <style>
+        /* Estilos básicos para el Tablero */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        /* Contenedor Grid para organizar los gráficos */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 20px;
+        }
+        .card-chart {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            min-height: 400px;
+        }
+        /* El gráfico de barras horizontales o pastel puede usar más espacio si es necesario */
+        .full-width {
+            grid-column: span 1;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Panel de Visualización Gráfica: Medición de la Pobreza en México</h1>
+        <p>Análisis Estadístico CONEVAL (2008 - 2018)</p>
+    </header>
+
+    <div class="dashboard-grid">
+        <div id="grafico_lineas" class="card-chart"></div>
+        <div id="grafico_barras" class="card-chart"></div>
+        <div id="grafico_pastel" class="card-chart"></div>
+        <div id="grafico_columnas" class="card-chart"></div>
+        <div id="grafico_area" class="card-chart"></div>
+    </div>
+
+</body>
+</html>
